@@ -38,8 +38,19 @@ public class PointerAnalysisTrivial extends ProgramAnalysis<PointerAnalysisResul
         World.get().getClassHierarchy().applicationClasses().forEach(jclass->{
             logger.info("Analyzing class {}", jclass.getName());
             jclass.getDeclaredMethods().forEach(method->{
-                if(!method.isAbstract())
+                if(!method.isAbstract()) {
                     preprocess.analysis(method.getIR());
+                    // 常量传播
+                    var const_prop_result = method.getIR().getResult("const-prop");
+                    if (const_prop_result != null) {
+                        logger.info("Got result from const-prop correctly");
+                        var cpr = (pascal.taie.analysis.dataflow.fact.DataflowResult
+                            <pascal.taie.ir.stmt.Stmt,
+                            pascal.taie.analysis.dataflow.analysis.constprop.CPFact>)const_prop_result;
+                    }
+                    else
+                        logger.info("Failed to get result from const-prop");
+                }
             });
         });
 
