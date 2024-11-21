@@ -11,7 +11,7 @@
 - description: pku software analysis courses project pointer analysis, your implementation
   analysisClass: pku.PointerAnalysis
   id: pku-pta
-  requires: [ ]
+  requires: [ const-prop ]
 
 - description: whole-program pointer analysis
   analysisClass: pascal.taie.analysis.pta.PointerAnalysis
